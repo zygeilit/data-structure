@@ -2,7 +2,8 @@
 
 function SegementTree (arr, merge) {
   this.tree = []
-  this.merge = merge
+  // 外部可自定义的线段逻辑
+  this.merge = merge || function (l, r) { return l + r }
   generate(arr, 0, arr.length - 1)
 }
 
