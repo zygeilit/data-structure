@@ -1,3 +1,4 @@
+// 线段树
 
 function SegementTree (arr, merge) {
   this.tree = []
