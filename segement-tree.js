@@ -48,6 +48,29 @@ SegementTree.prototype = {
     
     this.merge(leftResult, rightResult)
   },
+  
+  'set': function (treeIndex, l, r, index, e) {
+    if (l == index) {
+      return this.tree[treeIndex]
+    }
+    
+    var mid = l + (r - l) / 2
+    var leftTreeIndex = this.leftChile(treeIndex)
+    var rightTreeIndex = this.rightChile(treeIndex)
+
+    // 当个节点的set不会涉及到，分布在左右子树中
+    if (index <= mid) {
+      set(leftTreeIndex, l, mid, index, e)
+    } else {
+      set(rightTreeIndex, mid + 1, r, index, e)
+    }
+    
+    // 当节点的值发生变化后，所有的父节点统计的线段值都会发生变动
+    this.tree[treeIndex] = this.merge(
+      this.tree[leftTreeIndex],
+      this.tree[rightTreeIndex]
+    )
+  },
 
   // 0 * index + 1 = 1 => 数组中下标 1 的位置
   // 如果在数组表示法中，起始位置是 1，这里就可省略掉 “+1”
