@@ -2,6 +2,7 @@
 
 function SegementTree (arr, merge) {
   this.tree = []
+  this.data = arr
   // 外部可通过业务场景自定义的融合逻辑（不局限于相加）
   this.merge = merge || function (l, r) { return l + r }
   generate(arr, 0, arr.length - 1)
@@ -25,7 +26,11 @@ SegementTree.prototype = {
     )
   },
   
-  'query': function (treeIndex, l, r, ql, qr) {
+  'query': function (ql, qr) {
+    return this.private_query(0, 0, this.data.length - 1, ql, qr)
+  },
+  
+  'private_query': function (treeIndex, l, r, ql, qr) {
     if (l === ql && r === qr) {
       return tree[treeIndex]
     }
@@ -43,13 +48,17 @@ SegementTree.prototype = {
     
     // 没有在完全落在左右孩子中，只是部分
     // qr不再左侧，在右侧区间中
-    var leftResult = query(leftTreeIndex, l, mid, ql, mid)
-    var rightResult = query(rightTreeIndex, mid + 1, r, mid + 1, qr)
+    var leftResult = this.private_query(leftTreeIndex, l, mid, ql, mid)
+    var rightResult = this.private_query(rightTreeIndex, mid + 1, r, mid + 1, qr)
     
     this.merge(leftResult, rightResult)
   },
   
-  'set': function (treeIndex, l, r, index, e) {
+  'set': function (index, e) {
+    this.private_set(0, 0, this.data.length - 1, index, e)
+  },
+  
+  'private_set': function (treeIndex, l, r, index, e) {
     if (l == index) {
       return this.tree[treeIndex]
     }
@@ -60,9 +69,9 @@ SegementTree.prototype = {
 
     // 当个节点的set不会涉及到，分布在左右子树中
     if (index <= mid) {
-      set(leftTreeIndex, l, mid, index, e)
+      this.private_set(leftTreeIndex, l, mid, index, e)
     } else {
-      set(rightTreeIndex, mid + 1, r, index, e)
+      this.private_set(rightTreeIndex, mid + 1, r, index, e)
     }
     
     // 当节点的值发生变化后，所有的父节点统计的线段值都会发生变动
