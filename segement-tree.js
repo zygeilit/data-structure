@@ -1,4 +1,5 @@
 // 线段树
+// leetcode: https://leetcode-cn.com/problems/range-sum-query-mutable/description/
 
 function SegementTree (arr, merge) {
   this.tree = []
