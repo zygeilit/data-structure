@@ -5,7 +5,7 @@ function SegementTree (arr, merge) {
   this.data = arr
   // 外部可通过业务场景自定义的融合逻辑（不局限于相加）
   this.merge = merge || function (l, r) { return l + r }
-  generate(arr, 0, arr.length - 1)
+  this.generate(arr, 0, arr.length - 1)
 }
 
 SegementTree.prototype = {
