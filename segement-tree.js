@@ -24,6 +24,22 @@ SegementTree.prototype = {
       this.tree[rightTreeIndex]
     )
   },
+  
+  'query': function (treeIndex, l, r, ql, qr) {
+    if (l === ql && r === qr) {
+      return tree[treeIndex]
+    }
+    
+    var mid = l + (r - l) / 2
+    var leftTreeIndex = this.leftChile(treeIndex)
+    var rightTreeIndex = this.rightChile(treeIndex)
+    
+    if (ql >= mid + 1) {
+      return this.query(rightTreeIndex, mid + 1, r, ql, qr)
+    } else if (qr <= mid) {
+      return this.query(leftTreeIndex, l, mid, ql, qr)
+    }
+  },
 
   // 0 * index + 1 = 1 => 数组中下标 1 的位置
   // 如果在数组表示法中，起始位置是 1，这里就可省略掉 “+1”
