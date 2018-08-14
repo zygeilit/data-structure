@@ -35,7 +35,9 @@ SegementTree.prototype = {
       return tree[treeIndex]
     }
     
+    // **
     var mid = l + (r - l) / 2
+    
     var leftTreeIndex = this.leftChile(treeIndex)
     var rightTreeIndex = this.rightChile(treeIndex)
     
